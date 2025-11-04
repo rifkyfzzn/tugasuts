@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Perpustakaan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        
+        .classes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .class-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .class-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .buku-header {
+            background-color: #3498db;
+        }
+        
+        .anggota-header {
+            background-color: #2ecc71;
+        }
+        
+        .peminjaman-header {
+            background-color: #e74c3c;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .attributes {
+            margin-top: 15px;
+        }
+        
+        .attribute {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .attribute-icon {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .demo-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .demo-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .data-display {
+            background-color: #f8f9fa;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .data-item {
+            padding: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .data-item:last-child {
+            border-bottom: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            margin-top: 40px;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        @media (max-width: 768px) {
+            .classes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistem Manajemen Perpustakaan</h1>
+            <p class="subtitle">Kelas, Objek, dan Database dalam Sistem Perpustakaan</p>
+        </header>
+        
+        <section class="intro">
+            <h2>Pengenalan Sistem</h2>
+            <p>Sistem manajemen perpustakaan memerlukan beberapa kelas untuk menangani objek yang relevan seperti Buku, Anggota, dan Peminjaman. Setiap kelas memiliki atribut dan metode yang diperlukan untuk mengelola data dan operasi yang terkait.</p>
+        </section>
+        
+        <section class="classes-container">
+            <div class="class-card">
+                <div class="card-header buku-header">
+                    Kelas: Buku
+                </div>
+                <div class="card-content">
+                    <p>Kelas Buku merepresentasikan entitas buku dalam sistem perpustakaan. Setiap objek buku menyimpan informasi penting tentang buku tersebut.</p>
+                    
+                    <div class="attributes">
+                        <h3>Atribut:</h3>
+                        <div class="attribute">
+                            <span class="attribute-icon">📖</span>
+                            <span>judul: Judul buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">✍️</span>
+                            <span>pengarang: Nama pengarang buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">🔢</span>
+                            <span>isbn: Kode ISBN buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📋</span>
+                            <span>kategori: Kategori buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📅</span>
+                            <span>tahunTerbit: Tahun terbit buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📚</span>
+                            <span>status: Status ketersediaan buku</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <div class="card-header anggota-header">
+                    Kelas: Anggota
+                </div>
+                <div class="card-content">
+                    <p>Kelas Anggota merepresentasikan anggota perpustakaan yang dapat meminjam buku. Setiap objek anggota menyimpan informasi pribadi dan status keanggotaan.</p>
+                    
+                    <div class="attributes">
+                        <h3>Atribut:</h3>
+                        <div class="attribute">
+                            <span class="attribute-icon">👤</span>
+                            <span>nama: Nama lengkap anggota</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">🆔</span>
+                            <span>idAnggota: ID unik anggota</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📅</span>
+                            <span>tanggalDaftar: Tanggal pendaftaran anggota</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📧</span>
+                            <span>email: Alamat email anggota</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📞</span>
+                            <span>telepon: Nomor telepon anggota</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📍</span>
+                            <span>alamat: Alamat tempat tinggal anggota</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="class-card">
+                <div class="card-header peminjaman-header">
+                    Kelas: Peminjaman
+                </div>
+                <div class="card-content">
+                    <p>Kelas Peminjaman merepresentasikan transaksi peminjaman buku oleh anggota perpustakaan. Setiap objek peminjaman menghubungkan anggota dengan buku yang dipinjam.</p>
+                    
+                    <div class="attributes">
+                        <h3>Atribut:</h3>
+                        <div class="attribute">
+                            <span class="attribute-icon">🆔</span>
+                            <span>idPeminjaman: ID unik transaksi peminjaman</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">👤</span>
+                            <span>anggota: Objek anggota yang meminjam</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📚</span>
+                            <span>buku: Objek buku yang dipinjam</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📅</span>
+                            <span>tanggalPinjam: Tanggal peminjaman buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">📅</span>
+                            <span>tanggalKembali: Tanggal pengembalian buku</span>
+                        </div>
+                        <div class="attribute">
+                            <span class="attribute-icon">⏱️</span>
+                            <span>status: Status peminjaman (aktif/selesai)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2>Simulasi Database Perpustakaan</h2>
+            <p>Berikut adalah simulasi database sederhana untuk sistem perpustakaan menggunakan JavaScript:</p>
+            
+            <div class="controls">
+                <button id="tambahBuku">Tambah Buku Contoh</button>
+                <button id="tambahAnggota">Tambah Anggota Contoh</button>
+                <button id="tambahPeminjaman">Tambah Peminjaman Contoh</button>
+                <button id="lihatSemua">Lihat Semua Data</button>
+                <button id="resetData">Reset Data</button>
+            </div>
+            
+            <div class="data-display" id="dataDisplay">
+                <p>Data akan ditampilkan di sini...</p>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Tugas UTS Rifky Fauzan STI 3B &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Database sederhana menggunakan array JavaScript
+        let database = {
+            buku: [],
+            anggota: [],
+            peminjaman: []
+        };
+
+        // Kelas Buku
+        class Buku {
+            constructor(judul, pengarang, isbn, kategori, tahunTerbit) {
+                this.id = Date.now().toString();
+                this.judul = judul;
+                this.pengarang = pengarang;
+                this.isbn = isbn;
+                this.kategori = kategori;
+                this.tahunTerbit = tahunTerbit;
+                this.status = 'Tersedia';
+            }
+        }
+
+        // Kelas Anggota
+        class Anggota {
+            constructor(nama, idAnggota, email, telepon, alamat) {
+                this.id = Date.now().toString();
+                this.nama = nama;
+                this.idAnggota = idAnggota;
+                this.tanggalDaftar = new Date().toLocaleDateString('id-ID');
+                this.email = email;
+                this.telepon = telepon;
+                this.alamat = alamat;
+            }
+        }
+
+        // Kelas Peminjaman
+        class Peminjaman {
+            constructor(anggotaId, bukuId) {
+                this.id = Date.now().toString();
+                this.anggotaId = anggotaId;
+                this.bukuId = bukuId;
+                this.tanggalPinjam = new Date().toLocaleDateString('id-ID');
+                this.tanggalKembali = null;
+                this.status = 'Aktif';
+            }
+        }
+
+        // Fungsi untuk menampilkan data
+        function tampilkanData() {
+            const dataDisplay = document.getElementById('dataDisplay');
+            dataDisplay.innerHTML = '';
+
+            // Tampilkan data buku
+            const bukuHeader = document.createElement('h3');
+            bukuHeader.textContent = 'Data Buku:';
+            dataDisplay.appendChild(bukuHeader);
+
+            if (database.buku.length === 0) {
+                const emptyMsg = document.createElement('p');
+                emptyMsg.textContent = 'Tidak ada data buku.';
+                dataDisplay.appendChild(emptyMsg);
+            } else {
+                database.buku.forEach(buku => {
+                    const item = document.createElement('div');
+                    item.className = 'data-item';
+                    item.innerHTML = `
+                        <strong>${buku.judul}</strong> oleh ${buku.pengarang} (${buku.tahunTerbit})<br>
+                        ISBN: ${buku.isbn} | Kategori: ${buku.kategori} | Status: ${buku.status}
+                    `;
+                    dataDisplay.appendChild(item);
+                });
+            }
+
+            // Tampilkan data anggota
+            const anggotaHeader = document.createElement('h3');
+            anggotaHeader.textContent = 'Data Anggota:';
+            dataDisplay.appendChild(anggotaHeader);
+
+            if (database.anggota.length === 0) {
+                const emptyMsg = document.createElement('p');
+                emptyMsg.textContent = 'Tidak ada data anggota.';
+                dataDisplay.appendChild(emptyMsg);
+            } else {
+                database.anggota.forEach(anggota => {
+                    const item = document.createElement('div');
+                    item.className = 'data-item';
+                    item.innerHTML = `
+                        <strong>${anggota.nama}</strong> (ID: ${anggota.idAnggota})<br>
+                        Email: ${anggota.email} | Telepon: ${anggota.telepon}<br>
+                        Bergabung: ${anggota.tanggalDaftar}
+                    `;
+                    dataDisplay.appendChild(item);
+                });
+            }
+
+            // Tampilkan data peminjaman
+            const peminjamanHeader = document.createElement('h3');
+            peminjamanHeader.textContent = 'Data Peminjaman:';
+            dataDisplay.appendChild(peminjamanHeader);
+
+            if (database.peminjaman.length === 0) {
+                const emptyMsg = document.createElement('p');
+                emptyMsg.textContent = 'Tidak ada data peminjaman.';
+                dataDisplay.appendChild(emptyMsg);
+            } else {
+                database.peminjaman.forEach(peminjaman => {
+                    const anggota = database.anggota.find(a => a.id === peminjaman.anggotaId);
+                    const buku = database.buku.find(b => b.id === peminjaman.bukuId);
+                    
+                    const item = document.createElement('div');
+                    item.className = 'data-item';
+                    item.innerHTML = `
+                        <strong>Peminjaman #${peminjaman.id.substring(0, 8)}</strong><br>
+                        Anggota: ${anggota ? anggota.nama : 'Tidak ditemukan'} | 
+                        Buku: ${buku ? buku.judul : 'Tidak ditemukan'}<br>
+                        Pinjam: ${peminjaman.tanggalPinjam} | 
+                        Kembali: ${peminjaman.tanggalKembali || 'Belum'} | 
+                        Status: ${peminjaman.status}
+                    `;
+                    dataDisplay.appendChild(item);
+                });
+            }
+        }
+
+        // Event listeners untuk tombol
+        document.getElementById('tambahBuku').addEventListener('click', function() {
+            const bukuBaru = new Buku(
+                'Sukses Ternak Muda',
+                'Rikfy Fauzan',
+                '2403030043',
+                'Bisnis',
+                2025
+            );
+            database.buku.push(bukuBaru);
+            tampilkanData();
+        });
+
+        document.getElementById('tambahAnggota').addEventListener('click', function() {
+            const anggotaBaru = new Anggota(
+                'Rifky',
+                'A0043',
+                'rifkyf21305@gmail.com',
+                '0083833183145',
+                'Bandung Barat'
+            );
+            database.anggota.push(anggotaBaru);
+            tampilkanData();
+        });
+
+        document.getElementById('tambahPeminjaman').addEventListener('click', function() {
+            if (database.buku.length === 0 || database.anggota.length === 0) {
+                alert('Tambahkan minimal satu buku dan satu anggota terlebih dahulu!');
+                return;
+            }
+            
+            const anggotaId = database.anggota[0].id;
+            const bukuId = database.buku[0].id;
+            
+            const peminjamanBaru = new Peminjaman(anggotaId, bukuId);
+            database.peminjaman.push(peminjamanBaru);
+            
+            // Update status buku
+            const buku = database.buku.find(b => b.id === bukuId);
+            if (buku) {
+                buku.status = 'Dipinjam';
+            }
+            
+            tampilkanData();
+        });
+
+        document.getElementById('lihatSemua').addEventListener('click', tampilkanData);
+
+        document.getElementById('resetData').addEventListener('click', function() {
+            database = { buku: [], anggota: [], peminjaman: [] };
+            tampilkanData();
+        });
+
+        // Inisialisasi tampilan
+        tampilkanData();
+    </script>
+</body>
+</html>
